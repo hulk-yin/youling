@@ -20,6 +20,7 @@ RUN rm -rf /etc/apt/sources.list
 COPY patches/sources.list /etc/apt/sources.list
 ## 安装git 、yarn 安装依赖
 RUN apt-get update && apt-get install git && \
+    yarn config set registry https://registry.npm.taobao.org/ && \
     yarn global add knex-migrator grunt-cli ember-cli bower
 
 ## 复制fix代码
