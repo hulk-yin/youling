@@ -110,3 +110,7 @@ dist
 content/
 docker-assets/
 localdb/
+
+
+ # ignore friday config 
+.vscode/friday.json

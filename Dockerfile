@@ -5,23 +5,36 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
-RUN echo '' > /etc/apk/repositories && \
-    echo "https://mirror.tuna.tsinghua.edu.cn/alpine/v3.10/main"         >> /etc/apk/repositories && \
-    echo "https://mirror.tuna.tsinghua.edu.cn/alpine/v3.10/community"    >> /etc/apk/repositories && \
-    echo "Asia/Shanghai" > /etc/timezone
+## Alpine Linux 
+# RUN echo '' > /etc/apk/repositories && \
+#     echo "https://mirror.tuna.tsinghua.edu.cn/alpine/v3.10/main"         >> /etc/apk/repositories && \
+#     echo "https://mirror.tuna.tsinghua.edu.cn/alpine/v3.10/community"    >> /etc/apk/repositories && \
+#     echo "Asia/Shanghai" > /etc/timezone
 
-RUN apk update && apk add git && \
+# RUN apk update && apk add git && \
+#     yarn global add knex-migrator grunt-cli ember-cli bower
+
+## Ubuntu
+RUN rm -rf /etc/apt/source.list
+## 复制系统源配置（已经更新为阿里云）
+COPY /etc/apt/source.list /etc/apt/source.list 
+## 安装git 、yarn 安装依赖
+RUN apt-get update && apt-get install git && \
     yarn global add knex-migrator grunt-cli ember-cli bower
 
+## 复制fix代码
 COPY patches/mobiledoc-kit/event-manager.js /patches/mobiledoc-kit/event-manager.js
 
-ARG GHOST_RELEASE_VERSION=3.9.0
+# FOR GHOST 3.9.0
+ARG GHOST_RELEASE_VERSION=3.26.1
 RUN git clone --recurse-submodules https://github.com/TryGhost/Ghost.git --depth=1 --branch=$GHOST_RELEASE_VERSION /Ghost && \
     cd /Ghost && \
     yarn setup
 
-# FOR GHOST 3.9.0
-ARG MOBILEDOC_KIT_VERSION=v0.11.1-ghost.4
+# 0.12.4-ghost.1
+# ARG MOBILEDOC_KIT_VERSION=v0.11.1-ghost.4
+ARG MOBILEDOC_KIT_VERSION=0.12.4-ghost.1
+
 ARG EVENT_MANAGER_HASH=9a0456060f1c816a0a66bdcf3363e928
 RUN git clone https://github.com/TryGhost/mobiledoc-kit.git /mobiledoc-kit && \
     cd /mobiledoc-kit && \
