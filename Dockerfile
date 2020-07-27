@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:12
 LABEL maintainer="soulteary@gmail.com"
 
 ENV LANG en_US.UTF-8
