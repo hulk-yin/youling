@@ -17,7 +17,7 @@ ENV LC_ALL=en_US.UTF-8
 ## Ubuntu
 RUN rm -rf /etc/apt/sources.list
 ## 复制系统源配置（已经更新为阿里云）
-COPY /etc/apt/sources.list /etc/apt/sources.list
+COPY patches/sources.list /etc/apt/sources.list
 ## 安装git 、yarn 安装依赖
 RUN apt-get update && apt-get install git && \
     yarn global add knex-migrator grunt-cli ember-cli bower
