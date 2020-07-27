@@ -19,7 +19,7 @@ RUN rm -rf /etc/apt/sources.list
 ## 复制系统源配置（已经更新为阿里云）
 COPY patches/sources.list /etc/apt/sources.list
 ## 安装git 、yarn 安装依赖
-RUN apt-get update && apt-get install git && \
+RUN apt-get update && \
     yarn config set registry https://registry.npm.taobao.org/ && \
     yarn global add knex-migrator grunt-cli ember-cli bower
 
